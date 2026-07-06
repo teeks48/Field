@@ -1,0 +1,980 @@
+/* Google Fonts loaded via <link> in index.html */
+
+/* ═══════════════════════════════════════════════════
+   CAPE OS Design System v2.0
+   Architectural · Editorial · Material-driven
+   ═══════════════════════════════════════════════════ */
+:root {
+  /* ── Ground palette — warm stone, not cool blue ── */
+  --ground:          #F5F4F0;
+  --ground-dim:      #EDEAE4;
+  --ground-recessed: #E8E5DF;
+  --surface:         #FFFFFF;
+  --surface-dim:     #F9F8F5;
+
+  /* ── Ink scale — warm near-black ── */
+  --ink-900: #1A1916;
+  --ink-800: #2A2825;
+  --ink-700: #3A3630;
+  --ink-600: #5A5650;
+  --ink-500: #6A6660;
+  --ink-400: #8A8680;
+  --ink-300: #A8A49C;
+  --ink-200: #C8C4BC;
+  --ink-100: #DDD9D2;
+  --ink-50:  #EDEAE4;
+  --ink-0:   #F5F4F0;
+
+  /* ── Structural ── */
+  --border:        #E0DDD6;
+  --border-med:    #D0CCC4;
+  --border-strong: #1A1916;
+
+  /* ── Sidebar ── */
+  --sidebar-bg:     #1A1916;
+  --sidebar-w:      234px;
+
+  /* ── Signal — used ONLY for status, never decoration ── */
+  --signal-green-bg:   rgba(61,122,74,0.10);
+  --signal-green-text: #2A6038;
+  --signal-green-dot:  #3D7A4A;
+  --signal-amber-bg:   rgba(200,168,64,0.12);
+  --signal-amber-text: #8A6010;
+  --signal-amber-dot:  #C8A840;
+  --signal-red-bg:     rgba(184,48,48,0.09);
+  --signal-red-text:   #8A2020;
+  --signal-red-dot:    #B83030;
+  --signal-blue-bg:    rgba(30,80,160,0.09);
+  --signal-blue-text:  #1E50A0;
+  --signal-blue-dot:   #378ADD;
+  --signal-purple-bg:   rgba(124,77,221,0.10);
+  --signal-purple-text: #534AB7;
+  --signal-purple-dot:  #7F77DD;
+  --signal-teal-bg:    rgba(29,158,117,0.10);
+  --signal-teal-text:  #0F6E56;
+  --signal-teal-dot:   #1D9E75;
+
+  /* ── Typography ── */
+  --font:         'Inter', system-ui, sans-serif;
+  --font-display: 'Inter', system-ui, sans-serif;
+  --font-serif:   'DM Serif Display', Georgia, serif;
+  --font-mono:    'SF Mono', 'Fira Code', monospace;
+
+  /* ── Spacing ── */
+  --sp-2:   2px;
+  --sp-4:   4px;
+  --sp-8:   8px;
+  --sp-12: 12px;
+  --sp-16: 16px;
+  --sp-20: 20px;
+  --sp-24: 24px;
+  --sp-32: 32px;
+  --sp-40: 40px;
+  --sp-56: 56px;
+
+  /* ── Layout caps — inner content ceilings, not page containers ── */
+  --cap-text:  720px;   /* prose, debrief, notes, empty states        */
+  --cap-form:  860px;   /* add-row forms, single-column input areas   */
+  --cap-panel: 1100px;  /* detail panels, two-column spec views       */
+  --cap-wide:  1400px;  /* dashboards and grids that should still cap */
+  --page-px:   72px;    /* horizontal page padding — ~¾ inch breathing room */
+
+  /* Border radius tokens — used throughout via var(--r-*) */
+  --r-xs:  2px;
+  --r-sm:  4px;
+  --r-md:  6px;
+  --r-lg: 10px;
+  --r-xl: 16px;
+}
+
+/* ── Reset ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+body {
+  font-family: var(--font);
+  background: var(--ground);
+  color: var(--ink-900);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4 {
+  /* font-family intentionally not set here — set per element via .page-title class or inline style */
+  font-family: inherit;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+button { font-family: var(--font); cursor: pointer; border: none; background: none; }
+
+input, select, textarea {
+  font-family: var(--font);
+  font-size: 13px;
+  color: var(--ink-900);
+  background: var(--surface);
+  border: 1px solid var(--border-med);
+  border-radius: var(--r-sm);
+  padding: 7px 10px;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.12s;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--ink-500);
+  box-shadow: none;
+}
+input::placeholder, textarea::placeholder { color: var(--ink-200); }
+/* Checkboxes and radios must not inherit the 100% width */
+input[type="checkbox"], input[type="radio"] { width: auto; height: auto; }
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%238A8680' d='M5 7L1 3h8z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 26px;
+}
+
+#root { display: flex; flex-direction: column; min-height: 100vh; }
+
+/* ══════════════════════════════════════════════════════
+   WORKSPACE SHELL
+   ══════════════════════════════════════════════════════ */
+.workspace-shell {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--ground);
+}
+
+/* ── Sidebar ─────────────────────────────────────────── */
+.workspace-sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  background: var(--sidebar-bg);
+  border-right: 1px solid rgba(255,255,255,0.04);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+/* ── Main area ───────────────────────────────────────── */
+.workspace-main {
+  flex: 1;
+  overflow-y: auto;
+  background: var(--ground);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Topbar ──────────────────────────────────────────── */
+.workspace-topbar {
+  height: 44px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* ── Page containers — consistent padding, capped widths ─
+   Three tiers (box-sizing is border-box, so the horizontal
+   page padding is added on top of the content cap):
+   .page-content       → compact text/form pages (Files,
+                         Debrief, ContentCapture, Tablescape)
+   .page-content-wide  → standard pages with tabs, tables,
+                         and forms (Venue, Team, Hospitality,
+                         Logistics…) — still capped
+   .page-content-full  → intentionally uncapped (boards)   */
+.page-content,
+.page-content-wide,
+.page-content-full {
+  padding: var(--sp-40) var(--page-px) 80px;
+  width: 100%;
+  min-width: 0;
+}
+.page-content {
+  max-width: calc(var(--cap-panel) + 2 * var(--page-px));
+}
+.page-content-wide {
+  max-width: calc(var(--cap-wide) + 2 * var(--page-px));
+}
+/* .page-content-full — no cap, by design */
+
+/* ── Inner content caps ——————————————————————————————————
+   Use these on *inner* sections, never on the page wrapper.
+   They prevent single columns / prose from becoming too wide
+   while grids and tables continue to fill available width.  */
+
+/* Text-heavy: prose, debrief, notes, empty states */
+.text-section {
+  max-width: var(--cap-text);
+}
+/* Form areas: add-row forms, filter bars, inputs */
+.form-section {
+  max-width: var(--cap-form);
+}
+/* Detail panels: spec views, vendor detail, two-col forms */
+.panel-section {
+  max-width: var(--cap-panel);
+}
+
+
+/* ══════════════════════════════════════════════════════
+   SIDEBAR NAVIGATION
+   ══════════════════════════════════════════════════════ */
+.nav-section-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.30);
+  padding: 24px 18px 7px;
+}
+
+.nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 7px 18px 7px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.42);
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  letter-spacing: 0.005em;
+  transition: color 0.12s;
+}
+.nav-item:hover  { color: rgba(255,255,255,0.76); background: rgba(255,255,255,0.04); border-radius: 4px; }
+.nav-item.active {
+  color: rgba(255,255,255,0.92);
+  font-weight: 600;
+  background: rgba(255,255,255,0.06);
+  border-radius: 4px;
+}
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 18%;
+  height: 64%;
+  width: 2px;
+  background: rgba(255,255,255,0.70);
+  border-radius: 0 2px 2px 0;
+}
+/* Attention dot — right edge, amber, no color elsewhere */
+.nav-item.attention::after {
+  content: '';
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--signal-amber-dot);
+}
+
+/* ══════════════════════════════════════════════════════
+   PAGE HEADERS — one consistent system
+   ══════════════════════════════════════════════════════ */
+.page-header {
+  padding: 0 0 20px;
+  margin-bottom: 28px;
+}
+
+/* Eyebrow — 8px uppercase, wide tracking */
+.page-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: var(--ink-300);
+  margin-bottom: 12px;
+}
+
+/* Title — two variants */
+.page-title {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--ink-900);
+  line-height: 0.95;
+  margin-bottom: 10px;
+}
+.page-title-serif {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: -0.035em;
+  color: var(--ink-900);
+  line-height: 0.95;
+  margin-bottom: 10px;
+}
+.page-title-serif-em {
+  font-style: normal;
+  font-weight: 400;
+  color: var(--ink-400);
+}
+
+.page-subtitle {
+  font-size: 16px;
+  color: var(--ink-400);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+/* ══════════════════════════════════════════════════════
+   SECTION LABELS — consistent throughout
+   ══════════════════════════════════════════════════════ */
+.section-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-300);
+  margin-bottom: 12px;
+}
+
+/* ══════════════════════════════════════════════════════
+   SPEC STRIP — 5-cell horizontal fact bar
+   ══════════════════════════════════════════════════════ */
+.spec-strip {
+  display: grid;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  margin-bottom: 24px;
+  background: var(--ground-dim);
+}
+.spec-strip-cell {
+  padding: 10px 14px;
+  border-right: 1px solid var(--border);
+}
+.spec-strip-cell:last-child { border-right: none; }
+.spec-strip-cell.dark {
+  background: var(--ink-900);
+}
+.spec-cell-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--ink-300);
+  margin-bottom: 4px;
+}
+.spec-strip-cell.dark .spec-cell-label { color: rgba(255,255,255,0.28); }
+.spec-cell-value {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink-900);
+  line-height: 1.2;
+}
+.spec-strip-cell.dark .spec-cell-value { color: var(--signal-amber-dot); }
+.spec-cell-sub {
+  font-size: 10px;
+  color: var(--ink-300);
+  margin-top: 2px;
+}
+
+/* ══════════════════════════════════════════════════════
+   ATTENTION BANNER — left-border alert
+   ══════════════════════════════════════════════════════ */
+.attention-banner {
+  border-left: 2px solid var(--signal-amber-dot);
+  padding: 10px 14px;
+  background: var(--signal-amber-bg);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  margin-bottom: 20px;
+}
+.attention-banner-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--signal-amber-text);
+  margin-bottom: 2px;
+}
+.attention-banner-body {
+  font-size: 14px;
+  color: #A8803A;
+  line-height: 1.5;
+}
+
+/* ══════════════════════════════════════════════════════
+   TABS — consistent across all pages
+   ══════════════════════════════════════════════════════ */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+  gap: 0;
+}
+.tab {
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ink-400);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.1s;
+  letter-spacing: 0.01em;
+  font-family: var(--font);
+}
+.tab:hover { color: var(--ink-700); }
+.tab.active {
+  color: var(--ink-900);
+  border-bottom-color: var(--ink-900);
+}
+
+/* ══════════════════════════════════════════════════════
+   FILTER CHIPS — category filters
+   ══════════════════════════════════════════════════════ */
+.filter-chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.chip {
+  padding: 6px 14px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border-med);
+  background: transparent;
+  color: var(--ink-500);
+  cursor: pointer;
+  transition: all 0.1s;
+  letter-spacing: 0.01em;
+}
+.chip:hover { border-color: var(--ink-500); color: var(--ink-800); }
+.chip.active {
+  background: var(--ink-900);
+  border-color: var(--ink-900);
+  color: white;
+}
+
+/* ══════════════════════════════════════════════════════
+   STATUS PILLS — rectangular, uppercase, tight
+   ══════════════════════════════════════════════════════ */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: var(--r-sm);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.pill-green   { background: var(--signal-green-bg);  color: var(--signal-green-text); }
+.pill-amber   { background: var(--signal-amber-bg);  color: var(--signal-amber-text); }
+.pill-red     { background: var(--signal-red-bg);    color: var(--signal-red-text);   }
+.pill-blue    { background: var(--signal-blue-bg);   color: var(--signal-blue-text);  }
+.pill-neutral { background: var(--ground-dim);       color: var(--ink-500);           }
+
+/* ══════════════════════════════════════════════════════
+   TABLES — ledger style
+   ══════════════════════════════════════════════════════ */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.data-table thead tr {
+  border-bottom: 1.5px solid var(--ink-900);
+}
+.data-table th {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ink-300);
+  padding: 12px 12px 12px 0;
+  text-align: left;
+}
+.data-table th:last-child { padding-right: 0; }
+.data-table td {
+  font-size: 16px;
+  color: var(--ink-700);
+  padding: 14px 14px 14px 0;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.data-table td:last-child { padding-right: 0; }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tbody tr:hover td { background: var(--ground-dim); }
+
+/* Table wrapper — no card border, just the structural rules */
+.table-wrap {
+  width: 100%;
+  margin-bottom: 4px;
+}
+
+/* ══════════════════════════════════════════════════════
+   BUTTONS — uppercase, architectural edges
+   ══════════════════════════════════════════════════════ */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 22px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: var(--ink-900);
+  color: white;
+  border: none;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: opacity 0.12s;
+}
+.btn-primary:hover { opacity: 0.78; }
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--ink-700);
+  border: 1px solid var(--border-med);
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: border-color 0.12s, color 0.12s;
+}
+.btn-secondary:hover { border-color: var(--ink-700); color: var(--ink-900); }
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--ink-400);
+  border: none;
+  cursor: pointer;
+  transition: color 0.1s;
+}
+.btn-ghost:hover { color: var(--ink-800); }
+
+/* ══════════════════════════════════════════════════════
+   INLINE ADD ROW — consistent add state
+   ══════════════════════════════════════════════════════ */
+.add-row {
+  background: var(--ground-dim);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 14px;
+  margin-bottom: 14px;
+  max-width: var(--cap-form);  /* never stretch to full viewport */
+}
+.add-row-grid {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.add-row-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ══════════════════════════════════════════════════════
+   CARDS — minimal, only for bounded objects
+   ══════════════════════════════════════════════════════ */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 18px 20px;
+}
+.card-sm {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 12px 14px;
+}
+/* Recessed — for secondary zones */
+.card-recessed {
+  background: var(--ground-dim);
+  border-radius: var(--r-sm);
+  padding: 12px 14px;
+}
+
+/* ══════════════════════════════════════════════════════
+   FORMS — field labels + inputs
+   ══════════════════════════════════════════════════════ */
+.field { margin-bottom: 18px; }
+.field-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ink-300);
+  margin-bottom: 7px;
+}
+/* Inline editable — plain text until hover */
+.editable {
+  cursor: text;
+  border-radius: var(--r-sm);
+  padding: 1px 4px;
+  margin: -1px -4px;
+  transition: background 0.1s;
+}
+.editable:hover { background: var(--ground-dim); }
+
+/* ══════════════════════════════════════════════════════
+   DIVIDERS
+   ══════════════════════════════════════════════════════ */
+.rule { height: 1px; background: var(--border); margin: 16px 0; }
+.rule-strong { height: 2px; background: var(--ink-900); margin-bottom: 16px; }
+
+/* ══════════════════════════════════════════════════════
+   EMPTY STATES
+   ══════════════════════════════════════════════════════ */
+.empty-state {
+  padding: 48px 0;
+  text-align: center;
+}
+.empty-state-title {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ink-300);
+  margin-bottom: 8px;
+}
+.empty-state-sub {
+  font-size: 15px;
+  color: var(--ink-200);
+  letter-spacing: 0.02em;
+}
+
+/* ══════════════════════════════════════════════════════
+   TOGGLE BUTTONS — view switcher
+   ══════════════════════════════════════════════════════ */
+.toggle-group {
+  display: flex;
+  border: 1px solid var(--border-med);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+}
+.toggle-btn {
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--ink-400);
+  border: none;
+  border-right: 1px solid var(--border-med);
+  cursor: pointer;
+  transition: all 0.1s;
+}
+.toggle-btn:last-child { border-right: none; }
+.toggle-btn.active {
+  background: var(--ink-900);
+  color: white;
+}
+
+/* ══════════════════════════════════════════════════════
+   TOPBAR COMPONENTS
+   ══════════════════════════════════════════════════════ */
+.topbar-crumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14.5px;
+  color: var(--ink-400);
+}
+.topbar-crumb-sep { color: var(--ink-200); }
+.topbar-crumb-cur { color: var(--ink-800); font-weight: 600; letter-spacing: -0.01em; }
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.topbar-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.topbar-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.topbar-date {
+  font-size: 13px;
+  color: var(--ink-400);
+}
+
+/* Menu button */
+.topbar-menu-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--ink-400);
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  transition: background 0.1s;
+  letter-spacing: 0.08em;
+}
+.topbar-menu-btn:hover { background: var(--ground-dim); }
+
+/* Dropdown */
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: 36px;
+  background: var(--surface);
+  border: 1px solid var(--border-med);
+  border-radius: var(--r-md);
+  padding: 4px 0;
+  min-width: 186px;
+  z-index: 100;
+  box-shadow: 0 6px 24px rgba(26,25,22,0.10);
+}
+.dropdown-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px 14px;
+  font-size: 15px;
+  color: var(--ink-700);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.08s;
+}
+.dropdown-item:hover { background: var(--ground-dim); }
+.dropdown-item.danger { color: var(--signal-red-text); }
+.dropdown-divider { height: 1px; background: var(--border); margin: 4px 0; }
+
+/* ══════════════════════════════════════════════════════
+   DETAIL PANEL / DRAWER
+   ══════════════════════════════════════════════════════ */
+.detail-panel {
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 22px;
+}
+.detail-field { margin-bottom: 14px; }
+.detail-field-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ink-300);
+  margin-bottom: 5px;
+}
+.detail-field-value {
+  font-size: 16px;
+  color: var(--ink-800);
+  line-height: 1.5;
+}
+
+/* ══════════════════════════════════════════════════════
+   AVATAR
+   ══════════════════════════════════════════════════════ */
+.avatar {
+  border-radius: 50%;
+  background: var(--ink-800);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: rgba(255,255,255,0.6);
+  flex-shrink: 0;
+  font-size: 9px;
+  letter-spacing: 0.03em;
+}
+.avatar-sm  { width: 22px; height: 22px; }
+.avatar-md  { width: 28px; height: 28px; font-size: 10px; }
+.avatar-lg  { width: 36px; height: 36px; font-size: 12px; }
+
+/* Sidebar-specific avatar */
+.sb-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.09);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.45);
+  flex-shrink: 0;
+}
+
+/* ══════════════════════════════════════════════════════
+   MOTION — page entrance
+   ══════════════════════════════════════════════════════ */
+.page-enter {
+  animation: pageEnter 0.22s cubic-bezier(0.25,1,0.5,1) both;
+}
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════════════════════════════
+   SIDEBAR HEADER CHIP (production context)
+   ══════════════════════════════════════════════════════ */
+.sb-chip {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--r-sm);
+  padding: 8px 10px;
+  cursor: pointer;
+  margin-bottom: 0;
+}
+.sb-chip:hover { background: rgba(255,255,255,0.08); }
+.sb-pname {
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.78);
+  line-height: 1.3;
+  margin-bottom: 2px;
+}
+.sb-pmeta {
+  font-size: 13px;
+  color: rgba(255,255,255,0.28);
+}
+
+/* ── Dashboard grid layout (hand-built, no external library) ── */
+/* Subtle grid overlay shown only while rearranging */
+.rgl-editing {
+  background-image:
+    repeating-linear-gradient(to right, rgba(26,25,22,0.05) 0, rgba(26,25,22,0.05) 1px, transparent 1px, transparent calc((100% - 16px*11) / 12 + 16px)),
+    repeating-linear-gradient(to bottom, rgba(26,25,22,0.05) 0, rgba(26,25,22,0.05) 1px, transparent 1px, transparent 52px);
+  border-radius: 4px;
+}
+
+/* ══════════════════════════════════════════════════════
+   PRINT — hide all workspace chrome, show only ROS
+   ══════════════════════════════════════════════════════ */
+@media print {
+  .workspace-sidebar,
+  .workspace-topbar,
+  .collab-rail,
+  [class*="collab"],
+  [class*="topbar"],
+  [class*="sidebar"] {
+    display: none !important;
+  }
+  .workspace-main {
+    overflow: visible !important;
+  }
+  body, html, #root {
+    background: white !important;
+    overflow: visible !important;
+  }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+/* ══════════════════════════════════════════════════════
+   GLOBAL UTILITY FIXES — audit pass
+   ══════════════════════════════════════════════════════ */
+
+/* Ensure all inputs, selects, textareas use system font */
+input, select, textarea {
+  font-family: var(--font);
+}
+
+/* Consistent focus rings — subtle, not distracting */
+input:focus, select:focus, textarea:focus {
+  border-color: var(--ink-500);
+  outline: none;
+}
+
+/* Disabled button state */
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Consistent link-style button */
+.btn-link {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ink-600);
+  font-family: var(--font);
+  font-size: 13px;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  padding: 0;
+}
+.btn-link:hover { color: var(--ink-900); }
+
+/* Empty state standardized */
+.empty-state {
+  padding: 64px 0;
+  text-align: center;
+}
+.empty-state__title {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-style: italic;
+  color: var(--ink-200);
+  margin-bottom: 8px;
+}
+.empty-state__body {
+  font-size: 13px;
+  color: var(--ink-300);
+  margin-bottom: 20px;
+}
+
+/* Page eyebrow — consistent across all pages */
+.page-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-300);
+  margin-bottom: 8px;
+}
